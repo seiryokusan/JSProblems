@@ -49,32 +49,30 @@ console.log(bestSum(7, [2, 4]));
 console.log(bestSum(10, [2, 4, 5]));
 console.log(bestSum(100, [1, 2, 5, 25]));
 
-/*
-Tabulation...
-Inputs:
-m: target sum
-n: array length
-Time: O(m^2*n)
-Space: O(m)
-*/
-const bestSumTab = (target, numbers) => {
-    const table = Array(target + 1).fill(null);
+//Tabulation
+//m: target sum
+//n: array length
+//Time: O(m^2*n)
+//Space: O(m)
+
+const bestSumTab = (targetSum, numbers) => {
+    const table = Array(targetSum + 1).fill(null);
     table[0] = [];
-    for (let i = 0; i <= target; i++) {
-        if (!table[i]) continue;
-        for (let num of numbers) {
-            if (num + i <= target && !table[num + i]) {
-                const newSum = [...table[i], num];
-                if (!table[num + i] || table[num + 1].length > newSum.lenght) {
-                    table[num + i] = newSum;
+
+    for (let i = 0; i <= targetSum; i++) {
+        if (table[i] !== null) {
+            for (const num of numbers) {
+                const combination = [...table[i], num];
+                if (!table[i + num] || table[i + num].length > combination.length) {
+                    table[i + num] = combination;
                 }
             }
         }
     }
-    return table[target];
+    return table[targetSum];
 };
 
-console.log("Tabulation");
+console.log("\nTabulation");
 console.log(bestSumTab(7, [5, 3, 4, 7]));
 console.log(bestSumTab(8, [5, 4, 3]));
 console.log(bestSumTab(7, [2, 4]));

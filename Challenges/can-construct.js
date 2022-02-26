@@ -1,3 +1,8 @@
+//Brute Force
+// m = target.length
+// n = wordBank.length
+// O(n^m*m) time
+// O(m^2) space
 const canConstructSlow = (target, wordbank) => {
     if (target === "") return true;
 
@@ -13,13 +18,10 @@ const canConstructSlow = (target, wordbank) => {
     return false;
 };
 
-//Brute Force
-// m = target.length
-// n = wordBank.length
-// O(n^m*m) time
+//Memoization
+// O(n * m^2) time
 // O(m^2) space
-
-const canConstruct = (target, wordbank, memo = {}) => {
+const canConstructMemo = (target, wordbank, memo = {}) => {
     if (target === "") return true;
     if (target in memo) return memo[target];
 
@@ -35,9 +37,26 @@ const canConstruct = (target, wordbank, memo = {}) => {
     memo[target] = false;
     return false;
 };
-//Memoization
+
+//Tabulation
 // O(n * m^2) time
-// O(m^2) space
+// O(m) space
+const canConstruct = (target, wordbank) => {
+    const table = Array(target.length + 1).fill(false);
+    table[0] = true;
+
+    for (let i = 0; i <= target.length; i++) {
+        if (table[i]) {
+            for (const word of wordbank) {
+                if (target.slice(i, i + word.length) === word) {
+                    table[i + word.length] = true;
+                }
+            }
+        }
+    }
+
+    return table[target.length];
+};
 
 console.log(canConstruct("abcdef", ["ab", "abc", "cd", "def", "abcd"])); //true
 console.log(canConstruct("skateboard", ["bo", "rd", "ate", "t", "ska", "sk", "boar"])); //false
