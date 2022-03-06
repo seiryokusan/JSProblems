@@ -40,22 +40,20 @@ function ListNode(val, next) {
  * @return {ListNode}
  */
 var addTwoNumbers = function (l1, l2) {
-    let addedList;
-    let tenWaiting = false;
-    while (l1.next !== null && l2.next !== null) {
-        const sum = l1.val + l2.val;
-        if (sum > 9) {
-            tenWaiting = true;
-            sum -= 10;
-        }
-        if (addedList === undefined) {
-            addedList = new ListNode(sum);
-        } else {
-            addedList.next = new ListNode(sum);
-            addedList = addedList.next;
-        }
+    let head = new ListNode();
+    let overflow = 0;
+    let current = head;
+
+    while (l1 || l2 || overflow) {
+        let sum = l1.val || 0 + l2.val || 0 + overflow;
+        overflow = (sum / 10) | 0;
+        current.next = new ListNode(sum % 10);
+        current = current.next;
+        if (l1) l1 = l1.next;
+        if (l2) l2 = l2.next;
     }
-    return addedList;
+
+    return head.next;
 };
 
 console.log(addTwoNumbers([2, 4, 3], [5, 6, 4]));
