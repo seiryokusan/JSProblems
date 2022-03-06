@@ -8,6 +8,16 @@
  * @param {number[]} prices
  * @return {number}
  */
+var maxProfit2 = function (prices) {
+    for (let i = 0; i <= prices.length; i++) {
+        const daysLeft = prices.slice(i, prices.length);
+        for (let j = 0; j < daysLeft.length; j++) {
+            const element = array[j];
+            const table = Array(daysLeft.length + 1).fill(0);
+        }
+    }
+};
+
 var maxProfit = function (prices) {
     if (prices.length === 0) return 0;
     let bestProfit = 0;
